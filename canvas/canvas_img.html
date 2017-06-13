@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>本地拖放</title>
+    <meta charset="utf-8">
+    
+    <script>
+        var CANVAS_WIDTH = 300;
+        var CANVAS_HEIGHT = 300;
+        var mycanvas,context;
+        window.onload = function(){
+            createCanvas();
+            //drawrect();
+            drawImage();
+        }
+        function createCanvas (){
+            document.body.innerHTML = "<canvas id=\"mycanvas\" width=\""+CANVAS_WIDTH+"\" height=\""+CANVAS_HEIGHT+"\"></canvas>";
+            mycanvas = document.getElementById('mycanvas');
+            context = mycanvas.getContext("2d");
+            console.log(mycanvas.getContext);
+        }
+        function drawrect (){
+            
+            /*** 画矩形  ***/
+//            context.fillStyle = '#FF0000';
+//            context.scale(2,0.5);
+//            context.rotate(0.5);
+//            context.translate(200,200);
+//            context.fillRect(0,0,100,100);
+            /*** 画时钟  ***/
+//            context.beginPath();
+//            
+//            context.arc(100,100,99,0,2*Math.PI,false);
+//            context.moveTo(194,100);
+//            context.arc(100,100,94,0,2*Math.PI,false);
+//            
+//            context.translate(100,100);
+//            context.rotate(1);
+//            context.moveTo(0,0);
+//            context.lineTo(0,-85);
+//            context.moveTo(0,0);
+//            context.lineTo(-65,0);
+//            context.stroke();
+        }
+        
+        function drawImage(){
+            var img = new Image();
+            img.onload = function(){
+                context.drawImage(img,0,0,100,100);
+            }
+            img.src='img/rabbit.jpg';
+            
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

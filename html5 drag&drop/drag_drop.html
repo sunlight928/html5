@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>html5的拖放</title>
+    <meta charset="utf-8">
+    <style>
+        .box{
+            width:300px;
+            height:300px;
+            float: left;
+        }
+        #box1{
+            background-color: aquamarine;
+        }
+        #box2{
+            background-color: darkturquoise;
+        }
+        img{
+            width:100px;
+            height:100px;
+            border-radius:20px;
+        }
+    </style>
+    <script>
+       var box1,box2,img1;
+       window.onload =function(){
+            var box1 = document.getElementById('box1');
+            var box2 = document.getElementById('box2');
+            var img1 = document.getElementById('img1');
+            img1.ondragstart = function(e){
+                e.dataTransfer.setData('imgId','img1');
+            }
+//            box1.ondragover = function(e){
+//                e.preventDefault();
+//            }
+//             box2.ondragover = function(e){
+//                e.preventDefault();
+//            }
+            document.ondragover = function(e){
+                e.preventDefault();
+            }
+//            box1.ondrop = imgdropHandler;
+//            box2.ondrop = imgdropHandler;
+           document.ondrop = imgdropHandler;
+        }
+       function imgdropHandler(e){
+                e.preventDefault();
+                var imgId = document.getElementById(e.dataTransfer.getData('imgId'));
+                e.target.append(imgId);
+            }
+    </script>
+</head>
+<body>
+    <div class="box" id="box1"></div>
+    <div class="box" id="box2"></div>
+    <img id="img1" src="./img/rabbit.jpg" >
+</body>
+</html>

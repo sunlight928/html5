@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>鼠标滑动及点击出现的类似烟花效果</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="js/easeljs-0.8.2.min.js"></script>
+    <style>
+        body{
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1600px" height="720px"></canvas>
+    <script>
+        var canvas,stage;
+        var img = new Image();
+        var sprite;
+        window.onload = function(){
+            canvas = document.getElementById('canvas');
+            stage = new createjs.Stage(canvas);
+            
+            stage.addEventListener('stagemousedown',clickCanvas);
+            stage.addEventListener('stagemousemove',moveCanvas);
+            
+            var data = {
+                images:["img/star2.png"],
+                frames:{
+                    width:20,
+                    height:20,
+                    regX:10,//变化区域,相对于原始位置的偏移
+                    regY:10
+                }
+            }
+            
+            //使用spritesheet处理序列
+            // SpriteSheet是封装与雪碧表相关的属性和方法。雪碧表是一系列的图像(通常是动画帧)组合成一个更大的图像(或图像)。
+            sprite = new createjs.Sprite(new createjs.SpriteSheet(data));
+            createjs.Ticker.setFPS(20);
+            createjs.Ticker.addEventListener("tick",tick);
+            
+        }
+        
+        function tick(e){
+            var t = stage.getNumChildren();
+            for(var i= t-1;i>0;i--){
+                var s = stage.getChildAt(i);
+                
+                s.vY +=2;
+                s.vX +=1;
+                s.x+=s.vX;
+                s.y+=s.vY;
+                
+                s.scaleX = s.scaleY = s.scaleX +s.vS;
+                s.alpha += s.vA;
+                
+                if(s.alpha<=0 || s.y>canvas.height){
+                    stage.removeChildAt(i);
+                }
+            }
+            stage.update(e);
+        }
+        
+        function clickCanvas (e){
+            addS(Math.random()*200+100,stage.mouseX,stage.mouseY,2);
+        }
+        function moveCanvas(e){
+            addS(Math.random()*2+1,stage.mouseX,stage.mouseY,1);
+        }
+        function addS(count,x,y,speed){
+            for(var i=0;i<count;i++){
+                var s = sprite.clone();
+                s.x=x;
+                s.y=y;
+                s.alpha = Math.random()*0.5+0.5;//一个星星的透明度
+                s.scaleX=s.scaleY = Math.random()+0.3;//一个星星的缩放
+                
+                var a=Math.PI*2*Math.random();//弧度 2*PI/360是1弧度  小星星滑动的曲线
+                var v= (Math.random() - 0.5)*30*speed;//小星星落下的速度
+                s.vX = Math.cos(a)*v;//曲线变化的x值
+                s.vY = Math.sin(a)*v;//曲线变化的x值
+                s.vS = (Math.random()-0.5)*0.2;//scale
+                s.vA = -Math.random()*0.05-0.01;//alpha
+                stage.addChild(s);
+                
+                
+                
+            }
+        }
+    </script>
+</body>
+</html>
